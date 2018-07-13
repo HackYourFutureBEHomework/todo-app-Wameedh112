@@ -1,4 +1,3 @@
-// Your code goes here!
 let TODOS = [];
 
 function update() {
@@ -25,33 +24,51 @@ function update() {
     const $label = document.createElement("label");
     $label.innerHTML = item.title;
     $li.appendChild($label);
+    
     // Delete button
     const $button = document.createElement("button");
     $button.setAttribute("class","destroy");
-    $li.appendChild($button);    
+    $li.appendChild($button);
+
+// add event to X button
+  $button.addEventListener ("click", onDeleteItem.bind(null, item.id));
+    
+  //The code of unfinished items
     const $unFinished = TODOS.filter(falseDone => !falseDone.done); 
-    console.log($unFinished) ;        
+
+    // console.log($unFinished) ;        
     const $Span = document.querySelector('.todo-count');       
       if ($unFinished.length === 1){   
         $Span .innerHTML = $unFinished.length + ' item left';
        }          
         else {
           $Span.innerHTML = $unFinished.length + ' items left';
-        } 
-       console.log($unFinished);      
-      }          
-    document.querySelector('.main').style.display = 'block';
-}
+        }     
+      } 
+
+// To remove the block of style if the array of items empty
+      if (TODOS.length === 0) {
+        document.querySelector('.main').style.display = 'none';
+      } else {
+        document.querySelector('.main').style.display = 'block';
+        }
+      }
+       
 function onToggleTodo(id) {
   const todo = TODOS.find(todo => todo.id === id);
   // TODOS.find(function(todo) { return todo.id === id; });
   todo.done = !todo.done;
   update();
 }
+
+// Delete function
+ function onDeleteItem(id){
+  TODOS = TODOS.filter($dItem => $dItem.id != id);
+   update();
+ }
+
 function onNewTodo(e) {
   const title = e.target.value;
-  // Same as this line:
-  //const title = document.querySelector(".new-todo").value;
   console.log(title);
   TODOS.push({
     id: Date.now(),
